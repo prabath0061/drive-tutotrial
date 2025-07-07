@@ -1,97 +1,18 @@
-"use client"
+import { db } from "~/server/db";
+import GoogleDriveClone from "./drive-content";
+import { files as filesScehma, folders as foldersSchema } from "~/server/db/schema";
 
-import { useMemo, useState } from "react"
-import { mockFiles, mockFolders } from "../lib/mock-data"
-import { Folder, FileIcon, Upload, ChevronRight } from "lucide-react"
-import Link from "next/link"
-import { FileRow, FolderRow } from "./file-rows"
-
-export default function GoogleDriveClone() {
-  const [currentFolder, setCurrentFolder] = useState<string>("root")
-
-  const getCurrentFiles = () => {
-    return mockFiles.filter((file) => file.parent === currentFolder)
-  }
-  const getCurrentFolders = () => {
-    return mockFolders.filter((folder) => folder.parent === currentFolder)
-  }
-
-  const handleFolderClick = (folderId: string) => {
-    setCurrentFolder(folderId)
-  }
-
-  const getBreadcrumbs = useMemo(() => {
-    const breadcrumbs = []
-    let currentId = currentFolder
-
-    while (currentId !== "root") {
-      const folder = mockFolders.find((folder) => folder.id === currentId)
-      if (folder) {
-        breadcrumbs.unshift(folder)
-        currentId = folder.parent ?? "root"
-      } else {
-        break
-      }
-    }
-
-    return breadcrumbs
-  },[currentFolder])
-
-  const handleUpload = () => {
-    alert("Upload functionality would be implemented here")
-  }
-
-  return (
-    <div className="min-h-screen bg-gray-900 text-gray-100 p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex items-center">
-            <button
-              onClick={() => setCurrentFolder("root")}
-              className="text-gray-300 hover:text-white mr-2"
-            >
-              My Drive
-            </button>
-            {getBreadcrumbs.map((folder) => (
-              <div key={folder.id} className="flex items-center">
-                <ChevronRight className="mx-2 text-gray-500" size={16} />
-                <button
-                  onClick={() => handleFolderClick(folder.id)}
-                  className="text-gray-300 hover:text-white"
-                >
-                  {folder.name}
-                </button>
-              </div>
-            ))}
-          </div>
-          <button onClick={handleUpload} className="bg-blue-600 text-white hover:bg-blue-700">
-            <Upload className="mr-2" size={20} />
-            Upload
-          </button>
-        </div>
-        <div className="bg-gray-800 rounded-lg shadow-xl">
-          <div className="px-6 py-4 border-b border-gray-700">
-            <div className="grid grid-cols-12 gap-4 text-sm font-medium text-gray-400">
-              <div className="col-span-6">Name</div>
-              <div className="col-span-3">Type</div>
-              <div className="col-span-3">Size</div>
+export default async function MainPage() {
+    const files= await db.select().from(filesScehma);
+    const folders = await db.select().from(foldersSchema);
+    return (
+        <div className="min-h-screen bg-gray-900 text-gray-100 p-8">
+            <div className="max-w-6xl mx-auto">
+                <h1 className="text-3xl font-bold mb-6">Welcome to the Drive Tutorial</h1>
+                <p className="text-gray-400 mb-4">This is a simple Google Drive clone built with Next.js and Drizzle ORM.</p>
+                <p className="text-gray-400">Explore the features and learn how to manage files and folders.</p>
             </div>
-          </div>
-          <ul>
-            {getCurrentFolders().map((folder) => (
-              <FolderRow
-                key={folder.id}
-                folder={folder}
-                handleFolderClick={() => handleFolderClick(folder.id)}
-              />
-            ))}
-            {getCurrentFiles().map((file) => (
-              <FileRow key={file.id} file={file} />
-            ))}
-          </ul>
+            <GoogleDriveClone folders={folders} files={files}/>
         </div>
-      </div>
-    </div>
-  )
+    );
 }
-
