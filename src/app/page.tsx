@@ -12,7 +12,6 @@ export default async function MainPage() {
                 <p className="text-gray-400 mb-4">This is a simple Google Drive clone built with Next.js and Drizzle ORM.</p>
                 <p className="text-gray-400">Explore the features and learn how to manage files and folders.</p>
             </div>
-            <GoogleDriveClone folders={folders} files={files}/>
         </div>
     );
 }
