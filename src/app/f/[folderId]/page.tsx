@@ -1,6 +1,6 @@
 import { db } from "~/server/db";
 import GoogleDriveClone from "../../drive-content";
-import { files as filesScehma, folders as foldersSchema } from "~/server/db/schema";
+import { files_table as filesScehma, folders_table as foldersSchema } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 
 async function getParents(folderId: number) {

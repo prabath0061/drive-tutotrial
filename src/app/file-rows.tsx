@@ -1,12 +1,12 @@
 
 import type { TFile, TFolder } from '~/lib/mock-data';
 import { Folder, FileIcon, Upload, ChevronRight } from "lucide-react"
-import type { files, folders } from "~/server/db/schema"
+import type { files_table, folders_table } from "~/server/db/schema"
 import Link from 'next/link';
 
 
 
-export const FileRow = ({ file }: { file: typeof files.$inferSelect }) => {
+export const FileRow = ({ file }: { file: typeof files_table.$inferSelect }) => {
     return (
         <li key={file.id} className="px-6 py-4 border-b border-gray-700 hover:bg-gray-750">
             <div className="grid grid-cols-12 gap-4 items-center">
@@ -26,7 +26,7 @@ export const FileRow = ({ file }: { file: typeof files.$inferSelect }) => {
     );
 }
 
-export const FolderRow = (props: { folder: typeof folders.$inferSelect }) => {
+export const FolderRow = (props: { folder: typeof folders_table.$inferSelect }) => {
     const { folder } = props;
     return (
         <li key={folder.id} className="px-6 py-4 border-b border-gray-700 hover:bg-gray-750">
