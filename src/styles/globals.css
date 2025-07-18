@@ -37,3 +37,6 @@ body {
   color: hsl(var(--foreground));
 }
 
+.cl-userButtonPopoverFooter{
+  /* display: none; */
+}
