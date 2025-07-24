@@ -40,7 +40,7 @@ export const ourFileRouter = {
           name: file.name,
           size: file.size,
           url: file.ufsUrl,
-          parent: 0, // Set to the appropriate folder ID if needed
+          parent: 1, // Set to the appropriate folder ID if needed
         },
         userId: metadata.userId,
       });

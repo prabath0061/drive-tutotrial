@@ -5,6 +5,8 @@ import { FileRow, FolderRow } from "./file-rows"
 import type { files_table, folders_table } from "~/server/db/schema"
 import Link from "next/link"
 import { SignedOut, SignInButton, SignUpButton, SignedIn, UserButton } from "@clerk/nextjs"
+import { UploadButton } from "~/components/uploadthing"
+import { useRouter } from "next/navigation"
 
 export default function GoogleDriveClone(props: {
   files: typeof files_table.$inferSelect[]
@@ -15,6 +17,8 @@ export default function GoogleDriveClone(props: {
   const handleUpload = () => {
     alert("Upload functionality would be implemented here")
   }
+
+  const navigate = useRouter()
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 p-8">
@@ -72,6 +76,7 @@ export default function GoogleDriveClone(props: {
               <FileRow key={file.id} file={file} />
             ))}
           </ul>
+          <UploadButton endpoint="imageUploader" onClientUploadComplete={() => navigate.refresh()}/>
         </div>
       </div>
     </div>
