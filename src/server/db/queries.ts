@@ -1,5 +1,5 @@
 import { db } from "~/server/db";
-import { files_table as filesScehma, folders_table as foldersSchema } from "~/server/db/schema";
+import { files_table as filesScehma, folders_table as foldersSchema, type DB_fileType } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 
 export const QUERIES = {
@@ -34,4 +34,23 @@ export const QUERIES = {
     }
 }
 
+export const MUTATIONS = {
+    createFile: async function (input: {
+        file: {
+            name: string
+            size: number
+            url: string
+            parent: number
+        },
+        userId: string
+    }) {
+        return db.insert(filesScehma).values(input.file)
+    },
+    createFolder: async function (name: string, parent: number | null) {
+        const [folder] = await db
+            .insert(foldersSchema)
+            .values({ name, parent })
+        return folder;
+    },
+};
 
