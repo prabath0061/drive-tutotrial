@@ -31,7 +31,15 @@ export const QUERIES = {
             .select()
             .from(foldersSchema)
             .where(eq(foldersSchema.parent, folderId));
-    }
+    },
+    getFolderById: async function (folderId: number) {
+        const folder = await db
+            .select()
+            .from(foldersSchema)
+            .where(eq(foldersSchema.id, folderId));
+        if (!folder[0]) throw new Error(`Folder with ID ${folderId} not found`);
+        return folder[0];
+    },
 }
 
 export const MUTATIONS = {
@@ -40,16 +48,17 @@ export const MUTATIONS = {
             name: string
             size: number
             url: string
-            parent: number
+            parent: number,
+            ownerId: string
         },
         userId: string
     }) {
         return db.insert(filesScehma).values(input.file)
     },
-    createFolder: async function (name: string, parent: number | null) {
+    createFolder: async function (name: string, parent: number | null, ownerId: string) {
         const [folder] = await db
             .insert(foldersSchema)
-            .values({ name, parent })
+            .values({ name, parent, ownerId })
         return folder;
     },
 };

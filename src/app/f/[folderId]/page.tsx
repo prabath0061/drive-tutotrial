@@ -9,5 +9,5 @@ export default async function FolderPage(props: { params: Promise<{ folderId: st
     }
     const [files, folders, parents] = await Promise.all([QUERIES.getFiles(folderId), QUERIES.getFolders(folderId), QUERIES.getParentsForFolders(folderId)]);
 
-    return <GoogleDriveClone folders={folders} files={files} parents={parents} />
+    return <GoogleDriveClone folders={folders} files={files} parents={parents} folderId={folderId} />
 }

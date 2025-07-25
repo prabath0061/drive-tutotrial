@@ -12,6 +12,7 @@ export default function GoogleDriveClone(props: {
   files: typeof files_table.$inferSelect[]
   folders: typeof folders_table.$inferSelect[]
   parents: typeof folders_table.$inferSelect[]
+  folderId: number
 }) {
 
   const handleUpload = () => {
@@ -76,7 +77,10 @@ export default function GoogleDriveClone(props: {
               <FileRow key={file.id} file={file} />
             ))}
           </ul>
-          <UploadButton endpoint="imageUploader" onClientUploadComplete={() => navigate.refresh()}/>
+          <UploadButton 
+            endpoint="imageUploader" 
+            onClientUploadComplete={() => navigate.refresh()} 
+            input={{folderId: props.folderId}}/>
         </div>
       </div>
     </div>
