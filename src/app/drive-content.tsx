@@ -78,7 +78,7 @@ export default function GoogleDriveClone(props: {
             ))}
           </ul>
           <UploadButton 
-            endpoint="imageUploader" 
+            endpoint="driveUploader" 
             onClientUploadComplete={() => navigate.refresh()} 
             input={{folderId: props.folderId}}/>
         </div>
